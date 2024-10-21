@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using SpeakingInBitsWeb.Models;
 
 namespace SpeakingInBitsWeb.Areas.Identity.Pages.Account
 {
@@ -124,6 +125,9 @@ namespace SpeakingInBitsWeb.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    //Adds new accounts to the student role
+                    await _userManager.AddToRoleAsync(user, IdentityHelper.Student);
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
